@@ -1,12 +1,8 @@
 var ParReq = (function(){
-    var maxPicturesRequests = 100;
+    var maxPicturesRequests;
     var requestsCounter = 0;
-    var parallelRequests = 5;
+    var parallelRequests;
     var photosArray;
-    var url = 'https://api.flickr.com/services/rest/?method=flickr.photos.getRecent&' +
-        'api_key=1ca0f212d85403b1b6a9cc9fcb8bc369&' +
-        'per_page=' + maxPicturesRequests +
-        '&format=json&nojsoncallback=1';
     var getAllPicturesErrorMsg = 'Something went wrong. Please check you internet connection ';
     var active = document.querySelector(".active");
 
@@ -14,8 +10,6 @@ var ParReq = (function(){
     function getAllPicturesLinks(url) {
         var xhr = new XMLHttpRequest();
         xhr.onreadystatechange = function(){
-            console.log(this.readyState);
-            console.log(this.status);
             if (this.readyState == 4 ){
                 if(this.status == 200){
                     photosArray = this.response.photos.photo;
@@ -44,7 +38,7 @@ var ParReq = (function(){
 
         // setting the timeout
         setTimeout(function () {
-            // getting image as 'blob'
+        //     // getting image as 'blob'
             var xhr = new XMLHttpRequest();
             xhr.onreadystatechange = function(){
                 if (this.readyState == 4 && this.status == 200){
@@ -66,7 +60,15 @@ var ParReq = (function(){
         }, 1);
     }
 
-     function createRequest() {
+     function createRequest(maxPicReq, parReqCount) {
+         maxPicturesRequests = maxPicReq || 100;
+         parallelRequests = parReqCount || 5;
+
+         var url = 'https://api.flickr.com/services/rest/?method=flickr.photos.getRecent&' +
+             'api_key=1ca0f212d85403b1b6a9cc9fcb8bc369&' +
+             'per_page=' + maxPicturesRequests +
+             '&format=json&nojsoncallback=1';
+
         getAllPicturesLinks(url);
 
         updateActive();
