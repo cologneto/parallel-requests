@@ -13,7 +13,8 @@ To add the Parallel Requests module into your own project you can include parall
 To use it just call - ParallelRequests.create(maximumNumberOfPictures, numberOfParallelRequests, wrapSelector)
 where maximumNumberOfPictures argument must be of data type 'number' smaller then 500,  null or undefined,
 numberOfParallelRequests argument - must be of data type 'number' smaller then 500,  null or undefined and
-wrapSelector must be of type 'string' or null or undefined and you must include element with class or id attribute into body.
+wrapSelector must be of type 'string' or null or undefined and you must include element with class or id attribute into body. If there is no selector passed
+the pictures will be appended to the html documents body.
 
 	Examples
   
