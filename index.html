@@ -3,15 +3,126 @@
 <head>
     <meta charset="UTF-8">
     <title>Parallel Requests</title>
+    <style>
+        select, .selectContainer {
+            padding: 10px;
+            background-color: cadetblue;
+            color: white;
+            font-size: 1.1em;
+        }
 
+        label {
+            color: white;
+            font-size: 1.1em;
+        }
+
+
+        h2{
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            padding: 10px;
+            background-color: cadetblue;
+            color: white;
+        }
+
+        .selectContainer {
+            position: fixed;
+        }
+
+
+        .c1 {
+          right: 100px;
+            top: 100px;
+        }
+
+        .c2 {
+            right: 100px;
+            top: 20px;
+        }
+    </style>
 </head>
 <body>
 <h1 style="text-align: center;">Parallel Picture "GET" requests</h1>
-<h2 style="position: fixed; top: 20px; left: 20px; padding: 10px; background-color: cadetblue; color: white;">Active Requests <span class="active"></span></h2>
+<h2>Active Requests <span class="active"></span></h2>
+<div class="selectContainer c1">
+    <label for="pr">Number of parallel requests</label>
+    <select name="parallerRequest" id="pr">
+        <option value="5">5</option>
+        <option value="10">10</option>
+        <option value="20">20</option>
+    </select>
+</div>
+<div class="selectContainer c2">
+    <label for="mnor">Number of pictures</label>
+    <select name="maxNumberOfRequests" id="mnor">
+        <option value="100">100</option>
+        <option value="250">250</option>
+        <option value="500">500</option>
+    </select>
+</div>
+
+<div class="pr-wrapper"></div>
 <script src="js/ParallelRequest.js"></script>
 <script>
     document.addEventListener("DOMContentLoaded", function() {
-        ParReq.createRequest(100, 5);
+        // create
+        ParReq.createRequest(null, null, '.pr-wrapper');
+        var active    = document.querySelector('.active');
+        var pr        = document.querySelector('#pr');
+        var mnor      = document.querySelector('#mnor');
+        var prWrapper = document.querySelector('.pr-wrapper');
+
+        // event listeners
+        function onSelectChange(select) {
+            select.addEventListener('change', function() {
+                prWrapper.innerHTML = '';
+                ParReq.createRequest(+mnor.value, +pr.value, '.pr-wrapper');
+            })
+        }
+        //
+        onSelectChange(pr);
+        onSelectChange(mnor);
+
+        // script for show how many are the active requests
+        updateActive();
+
+        function updateActive() {
+
+            active.textContent = XMLHttpRequest.active;
+            requestAnimationFrame(updateActive);
+        }
+
+        function toggleSelectDisable(active){
+            if(active > 0) {
+                pr.disabled = true;
+                mnor.disabled = true;
+            } else {
+                pr.disabled = false;
+                mnor.disabled = false;
+            }
+        }
+
+        // Script for counting the active requests
+        (function(xhr) {
+            xhr.active = 0;
+            var pt = xhr.prototype;
+            var _send = pt.send;
+            pt.send = function() {
+                xhr.active++;
+                this.addEventListener('readystatechange', function(e) {
+                    if ( this.readyState == 4 ) {
+                        setTimeout(function() {
+                            xhr.active--;
+                            toggleSelectDisable(xhr.active);
+                        }, 1);
+
+                    }
+                });
+                _send.apply(this, arguments);
+            }
+        })(XMLHttpRequest);
+
     });
 </script>
 </body>
