@@ -1,4 +1,4 @@
-# ${1:Parallel requests}
+# Parallel requests
 	'Parallel requests' is a simple HTML/CSS/JavaScript application using recent pictures feed from Flickr API.
  By default the (on application loading) number of pictures retrieved from Flickr API is 100 and number of parallel requests is 5.
  The user can change two value by selecting values from the dropdown menus on the right side of the screen.  
@@ -15,14 +15,15 @@ where maximumNumberOfPictures argument must be of data type 'number' smaller the
 numberOfParallelRequests argument - must be of data type 'number' smaller then 500,  null or undefined and
 wrapSelector must be of type 'string' or null or undefined and you must include element with class or id attribute into body.
 
-  Examples
- ParallelRequests.create(100, 5, '.wrapper');
- 
- You can call it without arguments  - 
- ParallelRequests.create()
- 
- or ParallelRequests.create(100, 5)
- or ParallelRequests.create(100) 
- or ParallelRequests.create(null, 5, '');
+	Examples
+  
+	 ParallelRequests.create(100, 5, '.wrapper');
+	 
+	 You can call it without arguments  - 
+	 ParallelRequests.create()
+	 
+	 or ParallelRequests.create(100, 5)
+	 or ParallelRequests.create(100) 
+	 or ParallelRequests.create(null, 5, '');
 
  
