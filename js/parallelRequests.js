@@ -1,4 +1,4 @@
-var ParReq = (function(){
+var ParallelRequests = (function(){
     var maxPicturesRequests;
     var requestsCounter = 0;
     var parallelRequests;
@@ -60,7 +60,7 @@ var ParReq = (function(){
         }, 1);
     }
 
-     function createRequest(maxPicReq, parReqCount, wrapSelector) {
+     function create(maxPicReq, parReqCount, wrapSelector) {
          maxPicturesRequests = maxPicReq || 100;
          parallelRequests    = parReqCount || 5;
          wrapperSelector     = wrapSelector || 'body';
@@ -75,6 +75,6 @@ var ParReq = (function(){
     }
 
     return {
-        createRequest: createRequest
+        create: create
     }
 })();

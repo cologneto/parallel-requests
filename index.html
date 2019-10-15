@@ -63,11 +63,11 @@
 </div>
 
 <div class="pr-wrapper"></div>
-<script src="js/ParallelRequest.js"></script>
+<script src="js/parallelRequests.js"></script>
 <script>
     document.addEventListener("DOMContentLoaded", function() {
         // create
-        ParReq.createRequest(null, null, '.pr-wrapper');
+        ParallelRequests.create(null, null, '.pr-wrapper');
         var active    = document.querySelector('.active');
         var pr        = document.querySelector('#pr');
         var mnor      = document.querySelector('#mnor');
@@ -77,7 +77,7 @@
         function onSelectChange(select) {
             select.addEventListener('change', function() {
                 prWrapper.innerHTML = '';
-                ParReq.createRequest(+mnor.value, +pr.value, '.pr-wrapper');
+                ParallelRequests.create(+mnor.value, +pr.value, '.pr-wrapper');
             })
         }
         //
@@ -88,7 +88,6 @@
         updateActive();
 
         function updateActive() {
-
             active.textContent = XMLHttpRequest.active;
             requestAnimationFrame(updateActive);
         }
